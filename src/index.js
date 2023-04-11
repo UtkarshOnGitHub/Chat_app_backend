@@ -9,7 +9,7 @@ const messageRoute = require('./routes/messages.routes');
 const PORT = process.env.PORT || 8080
 const app = express()
 const corsOptions ={
-    origin:'http://localhost:3000', 
+    origin:'https://chat-app-nu-tawny.vercel.app/', 
     credentials:true,    
     optionSuccessStatus:200
 }
@@ -21,7 +21,7 @@ app.use(cors(corsOptions))
 const server = http.createServer(app);
 const io = socketIO(server,{
     cors: {
-      origin: "http://localhost:3000",
+      origin: "https://chat-app-nu-tawny.vercel.app/",
     },
 });
 
