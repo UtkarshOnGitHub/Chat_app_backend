@@ -8,10 +8,14 @@ const conversationRoute = require('./routes/conversation.routes');
 const messageRoute = require('./routes/messages.routes');
 const PORT = process.env.PORT || 8080
 const app = express()
-
+const corsOptions ={
+    origin:'http//localhost:3000/', 
+    credentials:true,    
+    optionSuccessStatus:200
+}
 app.use(express.urlencoded({extended: true}))
 app.use(express.json());
-app.use(cors())
+app.use(cors(corsOptions))
 
 
 const server = http.createServer(app);
