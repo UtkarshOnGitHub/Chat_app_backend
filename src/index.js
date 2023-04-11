@@ -19,7 +19,11 @@ app.use(cors(corsOptions))
 
 
 const server = http.createServer(app);
-const io = socketIO(server);
+const io = socketIO(server,{
+    cors: {
+      origin: "http://localhost:3000",
+    },
+});
 
 // const io = require("socket.io")(8900, {
 //     cors: {
