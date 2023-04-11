@@ -1,5 +1,6 @@
-
 const express = require('express')
+const http = require('http');
+const socketIO  = require("socket.io")
 const dbConnect = require('./config/db')
 const cors = require('cors');
 const user = require('./routes/user.routes');
@@ -10,14 +11,11 @@ const app = express()
 
 app.use(express.urlencoded({extended: true}))
 app.use(express.json());
-const corsOptions ={
-    origin:'https://chat-app-nu-tawny.vercel.app/', 
-    credentials:true,    
-    optionSuccessStatus:200
-}
-
-
 app.use(cors())
+
+
+const server = http.createServer(app);
+const io = socketIO(server);
 
 // const io = require("socket.io")(8900, {
 //     cors: {
@@ -26,53 +24,53 @@ app.use(cors())
 // });
 
 
-// let users = [];
+let users = [];
 
 
-// const addUser = (userId, socketId) => {
-//     if(userId){
-//         !users.some((user) => user.userId === userId) &&
-//         users.push({ userId, socketId });
-//     }
+const addUser = (userId, socketId) => {
+    if(userId){
+        !users.some((user) => user.userId === userId) &&
+        users.push({ userId, socketId });
+    }
 
-// };
+};
 
-// const removeUser = (socketId) => {
-//   users = users.filter((user) => user.socketId !== socketId);
-// };
+const removeUser = (socketId) => {
+  users = users.filter((user) => user.socketId !== socketId);
+};
 
-// const getUser = (userId) => {
-//   return users.find((user) => user.userId === userId);
-// };
+const getUser = (userId) => {
+  return users.find((user) => user.userId === userId);
+};
 
 
 
-// io.on("connection", (socket)=>{
-//     console.log("a user connected.");
+io.on("connection", (socket)=>{
+    console.log("a user connected.");
 
-//     //take userId and socketId from user
-//     socket.on("addUser", (userId) => {
-//       addUser(userId, socket.id);
-//       io.emit("getUsers", users);
-//     });
+    //take userId and socketId from user
+    socket.on("addUser", (userId) => {
+      addUser(userId, socket.id);
+      io.emit("getUsers", users);
+    });
   
-//     //send and get message
-//     socket.on("sendMessage", ({ senderId, receiverId, text, conversationId }) => {
-//         const user = getUser(receiverId);
-//         io.to(user.socketId).emit("getMessage", {
-//             conversationId,
-//             senderId,
-//             text,
-//       });
-//     });
+    //send and get message
+    socket.on("sendMessage", ({ senderId, receiverId, text, conversationId }) => {
+        const user = getUser(receiverId);
+        io.to(user.socketId).emit("getMessage", {
+            conversationId,
+            senderId,
+            text,
+      });
+    });
   
-//     //when disconnect
-//     socket.on("disconnect", () => {
-//       console.log("a user disconnected!");
-//       removeUser(socket.id);
-//       io.emit("getUsers", users);
-//     });
-// })
+    //when disconnect
+    socket.on("disconnect", () => {
+      console.log("a user disconnected!");
+      removeUser(socket.id);
+      io.emit("getUsers", users);
+    });
+})
 
 
 
@@ -87,7 +85,7 @@ app.use("/message" , messageRoute)
 
 
 
-app.listen(PORT, async() => {
+server.listen(PORT, async() => {
     await dbConnect();
     console.log('server started on port http://localhost:8080')}
 )
