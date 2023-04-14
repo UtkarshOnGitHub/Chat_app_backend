@@ -9,7 +9,7 @@ const messageRoute = require('./routes/messages.routes');
 const PORT = process.env.PORT || 8080
 const app = express()
 const corsOptions ={
-    origin:'https://chat-app-nu-tawny.vercel.app/', 
+    origin:'https://chat-app-nu-tawny.vercel.app', 
     credentials:true,    
     optionSuccessStatus:200
 }
