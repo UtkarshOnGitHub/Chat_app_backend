@@ -109,13 +109,16 @@ user.get("/:userId",async(req,res)=>{
 
 
 user.post("/byToken",async(req,res)=>{
-    try {
-        const data = jwt.verify(req.body.token , "HASHIRA");
-        const user = await UserModel.findById(data.id)
-        res.send(user)
-    } catch (error) {
-        console.log(error)
+    if(req.body.token){
+        try {
+            const data = jwt.verify(req.body.token , "HASHIRA");
+            const user = await UserModel.findById(data.id)
+            res.send(user)
+        } catch (error) {
+            console.log(error)
+        }
     }
+
 
 })
 
