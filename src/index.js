@@ -68,11 +68,13 @@ io.on("connection", (socket)=>{
     //send and get message
     socket.on("sendMessage", ({ senderId, receiverId, text, conversationId }) => {
         const user = getUser(receiverId);
-        io.to(user.socketId).emit("getMessage", {
-            conversationId,
-            senderId,
-            text,
-      });
+        if(user?.socketId){
+          io.to(user.socketId).emit("getMessage", {
+              conversationId,
+              senderId,
+              text,
+        });
+      }
     });
   
     //when disconnect
