@@ -25,8 +25,6 @@ const io = socketIO(server,{
       // origin:"http:localhost:3000",
       credentials:true,    
       optionSuccessStatus:200,
-      methods: ['GET', 'POST'],
-      allowedHeaders: ['Content-Type', 'Authorization'],
     },
 });
 
