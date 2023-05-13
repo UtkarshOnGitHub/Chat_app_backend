@@ -14,28 +14,23 @@ const corsOptions ={
     optionSuccessStatus:200
 }
 
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  next();
-});
 
 
-app.use(cors())
+app.use(cors(corsOptions))
 app.use(express.urlencoded({extended: true}))
 app.use(express.json());
 
 
 
 const server = http.createServer(app);
-const io = socketIO(server,{
-    cors: {
-      origin: ["https://chat-app-nu-tawny.vercel.app","http:localhost:3000"],
-      credentials:true,    
-      optionSuccessStatus:200,
-    },
-});
+const io = socketIO(server
+  // ,{
+  //   cors: {
+  //     origin: ["https://chat-app-nu-tawny.vercel.app","http:localhost:3000"],
+  //     credentials:true,    
+  //     optionSuccessStatus:200,
+  //   },
+);
 
 
 
