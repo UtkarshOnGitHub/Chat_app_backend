@@ -13,7 +13,7 @@ const corsOptions ={
     credentials:true,    
     optionSuccessStatus:200
 }
-app.use(cors())
+app.use(cors(corsOptions))
 app.use(express.urlencoded({extended: true}))
 app.use(express.json());
 
