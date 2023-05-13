@@ -15,7 +15,7 @@ const corsOptions ={
 }
 app.use(express.urlencoded({extended: true}))
 app.use(express.json());
-app.use(cors(corsOptions))
+app.use(cors())
 
 
 const server = http.createServer(app);
