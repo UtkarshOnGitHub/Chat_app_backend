@@ -13,18 +13,27 @@ const corsOptions ={
     credentials:true,    
     optionSuccessStatus:200
 }
-
-
-
-app.use(cors(corsOptions))
+app.use(cors())
 app.use(express.urlencoded({extended: true}))
 app.use(express.json());
 
 
 
 const server = http.createServer(app);
-const io = socketIO(server,{corsOptions});
+const io = socketIO(server,{
+    cors: {
+      origin: "https://chat-app-nu-tawny.vercel.app",
+      // origin:"http:localhost:3000"],
+      credentials:true,    
+      optionSuccessStatus:200,
+    },
+});
 
+// const io = require("socket.io")(8900, {
+//     cors: {
+//       origin: "https://chat-app-nu-tawny.vercel.app/",
+//     },
+// });
 
 
 let users = [];
