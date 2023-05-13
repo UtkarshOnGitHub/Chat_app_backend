@@ -7,7 +7,7 @@ conversationRoute.post("/" , async(req,res)=>{
     const newConvo = new conversationModel({members:[req.body.senderId , req.body.recieverId]})
 
     try {
-        const savedConvo = await newConvo.save()
+        const savedConvo = await newConvo.save() 
         res.status(200).json(savedConvo)
     } catch (error) {
         res.status(500).json(error)
