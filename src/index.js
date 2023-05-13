@@ -13,9 +13,10 @@ const corsOptions ={
     credentials:true,    
     optionSuccessStatus:200
 }
+app.use(cors())
 app.use(express.urlencoded({extended: true}))
 app.use(express.json());
-app.use(cors())
+
 
 
 const server = http.createServer(app);
