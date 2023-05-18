@@ -1,5 +1,6 @@
 const express = require("express")
-const conversationModel = require("../models/conversation.model")
+const conversationModel = require("../models/conversation.model");
+const UserModel = require("../models/user.model");
 
 const conversationRoute = express.Router();
 
@@ -24,6 +25,28 @@ conversationRoute.get("/:userId" , async(req,res)=>{
     }
 
 })
+
+conversationRoute.post("/getFriends",async(req,res)=>{
+    let id = req.body.id;
+    let convo = await conversationModel.find({});
+    let users = await UserModel.find({})
+    let result = [];
+    for(let i=0;i<convo.length;i++){
+        if(convo[i]?.members.includes(id)){
+            result.push(convo[i])
+        }
+    }
+    let responseArray = []
+    for(let i=0;i<result.length;i++){
+        for(let j=0;j<result[i].members.length;j++){
+            if(result[i].members[j]!==id){
+                responseArray.push(result[i].members[j])
+            }
+        }
+    }
+    res.status(200).json(responseArray)  
+})
+
 
 
 
