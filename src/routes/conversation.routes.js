@@ -44,7 +44,17 @@ conversationRoute.post("/getFriends",async(req,res)=>{
             }
         }
     }
-    res.status(200).json(responseArray)  
+    let output = []
+    for(let i=0;i<users.length;i++){
+        for(let j=0;j<responseArray.length;j++){
+            if(users[i]._id != responseArray[j]){
+                if(!output.includes(users[i])){
+                    output.push(users[i])
+                }
+            }
+        }
+    }
+    res.status(200).json(output)  
 })
 
 
