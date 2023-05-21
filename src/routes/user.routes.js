@@ -39,7 +39,7 @@ user.post("/signup" , async (req,res)=>{
                 if(err){
                     throw new Error("Something Went Wrong")
                 }
-                const user = new UserModel({username:username,email:email,password:hash});
+                const user = new UserModel({username:username,email:email,password:hash,friends:[]});
                 await user.save()
                 res.status(200).send("User Created Successfully")
             })

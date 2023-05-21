@@ -36,7 +36,7 @@ conversationRoute.post("/getFriends",async(req,res)=>{
             result.push(convo[i])
         }
     }
-    let responseArray = []
+    let responseArray = [];
     for(let i=0;i<result.length;i++){
         for(let j=0;j<result[i].members.length;j++){
             if(result[i].members[j]!==id){
@@ -44,17 +44,11 @@ conversationRoute.post("/getFriends",async(req,res)=>{
             }
         }
     }
-    let output = []
-    for(let i=0;i<users.length;i++){
-        for(let j=0;j<responseArray.length;j++){
-            if(users[i]._id != responseArray[j]){
-                if(!output.includes(users[i])){
-                    output.push(users[i])
-                }
-            }
-        }
-    }
-    res.status(200).json(output)  
+
+    let ans = users.filter((e)=>{
+        return !responseArray.includes(e.id)
+    })
+    res.status(200).json(ans)  
 })
 
 
