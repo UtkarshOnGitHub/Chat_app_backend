@@ -1,6 +1,7 @@
 const {Router} = require("express")
 const UserModel = require("../models/user.model")
 const jwt = require("jsonwebtoken");
+var validator = require("email-validator");
 
 var nodemailer = require("nodemailer");
 
@@ -30,8 +31,12 @@ user.get("/",async(req,res)=>{
 user.post("/signup" , async (req,res)=>{
     const {username,email,password} = req.body;
     const check = await UserModel.findOne({email})
+    if(!validator.validate(email)){
+        res.status(422).send("Enter a valid email");
+        return
+    }
     if(check){
-        res.send("Cannot Create two User With same Email ");
+        res.status(401).send("Cannot Create two User With same Email ");
         return
     }else{
         try {
@@ -57,7 +62,7 @@ user.post("/login" , async(req,res)=>{
     const {email , password} = req.body;
     const user = await UserModel.findOne({email})
     if(!user){
-        return res.send("Sorry We Couldnt Find Any Regeistered Email")
+        return res.status(401).send("Sorry We Couldnt Find Any Regeistered Email")
     }
     if(email){
         bcrypt.compare(password,user.password,(err,result)=>{
@@ -103,18 +108,34 @@ user.post("/forgetPassword", async (req,res)=>{
 
 
 user.get("/:userId",async(req,res)=>{
-    const data = await UserModel.findById(req.params.userId)
-    res.send(data)
+    if(req.params.userId){
+        try {
+            const data = await UserModel.findById(req.params.userId)
+            res.status(200).send(data);
+            return
+        } catch (error) {
+            console.log(error)
+        }
+
+    }else{
+        res.status(401).send("Something Went wrong!")
+    }
+
 })
 
 
 user.post("/byToken",async(req,res)=>{
     if(req.body.token != null){
         try {
+            // if(req.body.token!=string){
+            //     res.status(400).send("Login Again");
+            //     return 
+            // }
             const data = jwt.verify(req.body.token , "HASHIRA");
             const user = await UserModel.findById(data.id)
             res.send(user)
         } catch (error) {
+            console.log(error)
             console.log(error)
         }
     }
