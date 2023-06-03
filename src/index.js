@@ -22,8 +22,8 @@ app.use(express.json());
 const server = http.createServer(app);
 const io = socketIO(server,{
     cors: {
-      origin: "https://chat-app-nu-tawny.vercel.app",
-      // origin:"http:localhost:3000",
+      // origin: "https://chat-app-nu-tawny.vercel.app",
+      origin:"http:localhost:3000",
       credentials:true,    
       optionSuccessStatus:200,
     },
@@ -77,6 +77,8 @@ io.on("connection", (socket)=>{
         });
       }
     });
+
+
   
     //when disconnect
     socket.on("disconnect", () => {

@@ -127,15 +127,14 @@ user.get("/:userId",async(req,res)=>{
 user.post("/byToken",async(req,res)=>{
     if(req.body.token != null){
         try {
-            // if(req.body.token!=string){
-            //     res.status(400).send("Login Again");
-            //     return 
-            // }
+            if(typeof (req.body.token) !== "string"){
+                res.status(400).send("Login Again");
+                return 
+            }
             const data = jwt.verify(req.body.token , "HASHIRA");
             const user = await UserModel.findById(data.id)
             res.send(user)
         } catch (error) {
-            console.log(error)
             console.log(error)
         }
     }

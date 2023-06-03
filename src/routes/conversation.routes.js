@@ -48,7 +48,10 @@ conversationRoute.post("/getFriends",async(req,res)=>{
     let ans = users.filter((e)=>{
         return !responseArray.includes(e.id)
     })
-    res.status(200).json(ans)  
+    let filtered = ans.filter((e)=>{
+        return e.id != id
+    })
+    res.status(200).json(filtered)  
 })
 
 
