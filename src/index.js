@@ -9,7 +9,7 @@ const messageRoute = require('./routes/messages.routes');
 const PORT = process.env.PORT || 8080
 const app = express()
 const corsOptions ={
-    origin:'https://chat-app-nu-tawny.vercel.app', 
+    origin:['https://chat-app-nu-tawny.vercel.app','https://chat-boom.vercel.app',"http:localhost:3000"], 
     credentials:true,    
     optionSuccessStatus:200
 }
@@ -20,20 +20,16 @@ app.use(express.json());
 
 
 const server = http.createServer(app);
-const io = socketIO(server,{
-    cors: {
-      origin: "*",
-      // origin:"http:localhost:3000",
-      credentials:true,    
-      optionSuccessStatus:200,
-    },
-});
-
-// const io = require("socket.io")(8900, {
+// const io = socketIO(server,{
 //     cors: {
-//       origin: "https://chat-app-nu-tawny.vercel.app/",
+//       origin: "*",
+//       // origin:"http:localhost:3000",
+//       credentials:true,    
+//       optionSuccessStatus:200,
 //     },
 // });
+
+const io = require("socket.io")(8900,corsOptions);
 
 
 let users = [];
