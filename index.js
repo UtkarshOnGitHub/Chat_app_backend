@@ -1,11 +1,11 @@
 const express = require('express')
 const http = require('http');
 const socketIO  = require("socket.io")
-const dbConnect = require('./config/db')
+const dbConnect = require('./src/config/db')
 const cors = require('cors');
-const user = require('./routes/user.routes');
-const conversationRoute = require('./routes/conversation.routes');
-const messageRoute = require('./routes/messages.routes');
+const user = require('./src/routes/user.routes');
+const conversationRoute = require('./src/routes/conversation.routes');
+const messageRoute = require('./src/routes/messages.routes');
 const PORT = process.env.PORT || 8080
 const app = express()
 const corsOptions ={
