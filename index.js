@@ -20,16 +20,16 @@ require('dotenv').config()
 
 
 const server = http.createServer(app);
-// const io = socketIO(server,{
-//     cors: {
-//       origin: "*",
-//       // origin:"http:localhost:3000",
-//       credentials:true,    
-//       optionSuccessStatus:200,
-//     },
-// });
+const io = socketIO(server,{
+    cors: {
+      origin: "*",
+      // origin:"http:localhost:3000",
+      credentials:true,    
+      optionSuccessStatus:200,
+    },
+});
 
-const io = require("socket.io")(8900,corsOptions);
+// const io = require("socket.io")(8900,corsOptions);
 
 
 let users = [];
