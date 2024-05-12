@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
-require('dotenv').config();
 
 
-const dbConnect = ()=>{
+
+const dbConnect = (URL)=>{
     mongoose.set('strictQuery', true);
-    return mongoose.connect(process.env.DB_URL).then((res)=>{
+    return mongoose.connect(URL).then((res)=>{
         console.log("Database Connected Successfully!")
     }).catch((err)=>{
         console.log(err)

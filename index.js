@@ -16,7 +16,7 @@ const corsOptions ={
 app.use(cors())
 app.use(express.urlencoded({extended: true}))
 app.use(express.json());
-
+require('dotenv').config()
 
 
 const server = http.createServer(app);
@@ -98,6 +98,6 @@ app.use("/message" , messageRoute)
 
 
 server.listen(PORT, async() => {
-    await dbConnect();
+    await dbConnect(process.env.DB_URL);
     console.log('server started on port http://localhost:8080')}
 )
